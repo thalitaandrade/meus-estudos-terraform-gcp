@@ -13,31 +13,40 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+      GCP_CREDENTIALS: ${{ secrets.GCP_CREDENTIALS }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.6.6
 
-      - name: Decode GCP Credentials
-        run: echo "${{ secrets.GCP_CREDENTIALS }}" | base64 --decode > gcp-creds.json
 
-      - name: Terraform Inits
-        run: |
-          terraform init \
-            -backend-config="bucket=bucket-tfstate-grupo14-11soat" \
-            -backend-config="prefix=terraform/state" \
-            -backend-config="credentials=gcp-creds.json"
+      - name: Create GCP Credentials File
+        run: echo "${GCP_CREDENTIALS}" > gcp-creds.json
+
+
+      - name: Terraform Init
+        run: terraform init \
+              -backend-config="bucket=bucket-tfstate-grupo14-11soat" \
+              -backend-config="prefix=terraform/state" \
+              -backend-config="credentials=gcp-creds.json"
 
 
       - name: Terraform Validate
         run: terraform validate
 
+
       - name: Terraform Plan
-        run: terraform plan -var="project_id=${{ secrets.GCP_PROJECT_ID }}" -var="gcp_credentials=${{ secrets.GCP_CREDENTIALS }}"
+        run: terraform plan \
+              -var="project_id=${{ secrets.GCP_PROJECT_ID }}" \
+              -var="gcp_credentials=${{ secrets.GCP_CREDENTIALS }}"
+
 
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main'
-        run: terraform apply -auto-approve -var="project_id=${{ secrets.GCP_PROJECT_ID }}" -var="gcp_credentials=${{ secrets.GCP_CREDENTIALS }}"
+        run: terraform apply -auto-approve \
+              -var="project_id=${{ secrets.GCP_PROJECT_ID }}" \
+              -var="gcp_credentials=${{ secrets.GCP_CREDENTIALS }}"
