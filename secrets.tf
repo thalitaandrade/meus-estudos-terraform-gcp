@@ -6,7 +6,7 @@ resource "random_password" "db_password" {
 
 
 resource "google_secret_manager_secret" "db_user" {
-  secret_id  = "db-user"
+  secret_id = "db-user"
   replication {
     auto {}
   }
@@ -18,7 +18,7 @@ resource "google_secret_manager_secret_version" "db_user" {
 }
 
 resource "google_secret_manager_secret" "db_password" {
-  secret_id  = "db-password"
+  secret_id = "db-password"
   replication {
     auto {}
   }
