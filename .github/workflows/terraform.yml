@@ -36,7 +36,7 @@ jobs:
 
       - name: Terraform Validate
         run: terraform validate
-        
+
       - name: Terraform Plan
         run: |
           export TF_LOG=DEBUG
@@ -45,4 +45,4 @@ jobs:
 
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main'
-        run: terraform apply -auto-approve -var="project_id=${GCP_PROJECT_ID}"
+        run: terraform apply -auto-approve -var="project_id=${GCP_PROJECT_ID}" -var="gcp_credentials=$(cat gcp-creds.json)"
