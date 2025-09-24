@@ -1,13 +1,12 @@
 name: Terraform CI/CD
 
 on:
-  pull_request:
+  push:             # roda em qualquer push
     branches:
-      - main
-  push:
+      - '**'        # todas as branches
+  pull_request:     # roda em qualquer PR
     branches:
-      - main
-
+      - '**'        # qualquer branch
 jobs:
   terraform:
     runs-on: ubuntu-latest
