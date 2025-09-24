@@ -29,11 +29,11 @@ jobs:
 
 
       - name: Terraform Init
-        run: terraform init \
-              -backend-config="bucket=bucket-tfstate-grupo14-11soat" \
-              -backend-config="prefix=terraform/state" \
-              -backend-config="credentials=gcp-creds.json"
-
+        run: |
+          terraform init \
+            -backend-config="bucket=bucket-tfstate-grupo14-11soat" \
+            -backend-config="prefix=terraform/state" \
+            -backend-config="credentials=gcp-creds.json"
 
       - name: Terraform Validate
         run: terraform validate
