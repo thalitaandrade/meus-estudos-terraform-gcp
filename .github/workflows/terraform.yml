@@ -40,15 +40,9 @@ jobs:
 
 
       - name: Terraform Plan
-        run: |
-          terraform plan \
-            -var="project_id=${{ secrets.GCP_PROJECT_ID }}" \
-            -var="gcp_credentials=${{ secrets.GCP_CREDENTIALS }}"
+        run: terraform plan -var="project_id=${{ secrets.GCP_PROJECT_ID }}"
 
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main'
-        run: |
-          terraform apply -auto-approve \
-            -var="project_id=${{ secrets.GCP_PROJECT_ID }}" \
-            -var="gcp_credentials=${{ secrets.GCP_CREDENTIALS }}"
+        run: terraform apply -auto-approve -var="project_id=${{ secrets.GCP_PROJECT_ID }}"
 
