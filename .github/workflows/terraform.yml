@@ -1,12 +1,13 @@
 name: Terraform CI/CD
 
 on:
-  push:             # roda em qualquer push
+  push:
     branches:
-      - '**'        # todas as branches
-  pull_request:     # roda em qualquer PR
+      - '**'       # roda em qualquer branch
+  pull_request:
     branches:
-      - '**'        # qualquer branch
+      - '**'       # roda em qualquer PR
+
 jobs:
   terraform:
     runs-on: ubuntu-latest
@@ -14,7 +15,7 @@ jobs:
       GOOGLE_CREDENTIALS: ${{ secrets.GCP_CREDENTIALS }}
       GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Setup Terraform
@@ -29,8 +30,8 @@ jobs:
         run: terraform validate
 
       - name: Terraform Plan
-        run: terraform plan -var="project_id=${{ secrets.GCP_PROJECT_ID }}" -var="gcp_credentials=${{ secrets.GCP_CREDENTIALS }}"
+        run: terraform plan -var="project_id=${{ secrets.GCP_PROJECT_ID }}"
 
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main'
-        run: terraform apply -auto-approve -var="project_id=${{ secrets.GCP_PROJECT_ID }}" -var="gcp_credentials=${{ secrets.GCP_CREDENTIALS }}"
+        run: terraform apply -auto-approve -var="project_id=${{ secrets.GCP_PROJECT_ID }}"
