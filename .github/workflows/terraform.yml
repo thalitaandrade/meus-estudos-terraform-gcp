@@ -1,16 +1,21 @@
+name: Terraform CI/CD
+
 on:
-  pull_request:
-    branches:
-      - main
   push:
     branches:
-      - main
+      - '**'
+  pull_request:
+    branches:
+      - '**'
 
 jobs:
   terraform:
     runs-on: ubuntu-latest
+    env:
+      GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+      GCP_CREDENTIALS: ${{ secrets.GCP_CREDENTIALS }}
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Setup Terraform
@@ -18,15 +23,26 @@ jobs:
         with:
           terraform_version: 1.6.6
 
+      - name: Create GCP Credentials File
+        run: |
+          echo "${GCP_CREDENTIALS}" > gcp-creds.json
+
       - name: Terraform Init
-        run: terraform init -backend-config="bucket=bucket-tfstate-grupo14-11soat" -backend-config="prefix=terraform/state"
+        run: |
+          terraform init \
+            -backend-config="bucket=bucket-tfstate-grupo14-11soat" \
+            -backend-config="prefix=terraform/state" \
+            -backend-config="credentials=gcp-creds.json"
 
       - name: Terraform Validate
         run: terraform validate
-
+        
       - name: Terraform Plan
-        run: terraform plan -var="project_id=${{ secrets.GCP_PROJECT_ID }}" -var="gcp_credentials=${{ secrets.GCP_CREDENTIALS }}"
+        run: |
+          export TF_LOG=DEBUG
+          terraform plan -lock=false -var="project_id=${GCP_PROJECT_ID}" -var="gcp_credentials=$(cat gcp-creds.json)"
+
 
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main'
-        run: terraform apply -auto-approve -var="project_id=${{ secrets.GCP_PROJECT_ID }}" -var="gcp_credentials=${{ secrets.GCP_CREDENTIALS }}"
+        run: terraform apply -auto-approve -var="project_id=${GCP_PROJECT_ID}"
