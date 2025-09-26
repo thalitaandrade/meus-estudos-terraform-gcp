@@ -39,6 +39,8 @@ Neste passo, iremos conceder as permissões necessárias para realizar o provisi
     gcloud projects add-iam-policy-binding fiap-prj-fast-food-2 --member="serviceAccount:teste-fiap-2@fiap-prj-fast-food-2.iam.gserviceaccount.com" --role="roles/storage.admin"
 
     gcloud projects add-iam-policy-binding fiap-prj-fast-food-2 --member="serviceAccount:teste-fiap-2@fiap-prj-fast-food-2.iam.gserviceaccount.com" --role="roles/compute.networkViewer"
+    
+    gcloud projects add-iam-policy-binding fiap-prj-fast-food-2 --member="serviceAccount:teste-fiap-2@fiap-prj-fast-food-2.iam.gserviceaccount.com" --role="roles/compute.networkAdmin"
 
     ```
 4. É necessário habilitar as APIs para que o provisionamento funcione:
