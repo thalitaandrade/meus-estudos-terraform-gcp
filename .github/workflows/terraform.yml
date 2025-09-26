@@ -27,10 +27,16 @@ jobs:
         run: |
           echo "${GCP_CREDENTIALS}" > gcp-creds.json
 
+      # - name: Validate GCP Credentials
+      #   run: |
+      #     gcloud auth activate-service-account --key-file=gcp-creds.json
+      #     gcloud auth list
+      #     gsutil ls gs://bucket-tfstate-grupo14-11soat-2
+
       - name: Terraform Init
         run: |
           terraform init \
-            -backend-config="bucket=bucket-tfstate-grupo14-11soat" \
+            -backend-config="bucket=bucket-tfstate-grupo14-11soat-2" \
             -backend-config="prefix=terraform/state" \
             -backend-config="credentials=gcp-creds.json"
 
