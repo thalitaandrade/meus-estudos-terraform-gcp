@@ -9,6 +9,7 @@
         - Service Accounts
         - Instâncias do Cloud SQL
 
+
 2. Pré-requisitos 
 Esses passos só precisam ser feitos uma vez por projeto/conta:
 
@@ -20,24 +21,24 @@ Esses passos só precisam ser feitos uma vez por projeto/conta:
 
 2. Criar service account de bootstrap
     ```bash
-        gcloud iam service-accounts create terraform-bootstrap --display-name="Terraform Bootstrap SA"
+        gcloud iam service-accounts create teste-fiap-2 --display-name="teste-fiap-2"
     ```
 
 3. Conceder permissões necessárias
 Neste passo, iremos conceder as permissões necessárias para realizar o provisionamento.
 
     ```bash
-    gcloud projects add-iam-policy-binding <PROJECT_ID> --member="serviceAccount:terraform-bootstrap@<PROJECT_ID>.iam.gserviceaccount.com" --role="roles/cloudsql.admin"
+    gcloud projects add-iam-policy-binding fiap-prj-fast-food-2 --member="serviceAccount:teste-fiap-2@fiap-prj-fast-food-2.iam.gserviceaccount.com" --role="roles/cloudsql.admin"
 
-    gcloud projects add-iam-policy-binding <PROJECT_ID> --member="serviceAccount:terraform-bootstrap@<PROJECT_ID>.iam.gserviceaccount.com" --role="roles/secretmanager.admin"
+    gcloud projects add-iam-policy-binding fiap-prj-fast-food-2 --member="serviceAccount:teste-fiap-2@fiap-prj-fast-food-2.iam.gserviceaccount.com" --role="roles/secretmanager.admin"
 
-    gcloud projects add-iam-policy-binding <PROJECT_ID> --member="serviceAccount:terraform-bootstrap@<PROJECT_ID>.iam.gserviceaccount.com" --role="roles/storage.admin"
+    gcloud projects add-iam-policy-binding fiap-prj-fast-food-2 --member="serviceAccount:teste-fiap-2@fiap-prj-fast-food-2.iam.gserviceaccount.com" --role="roles/storage.admin"
 
-    gcloud projects add-iam-policy-binding <PROJECT_ID> --member="serviceAccount:terraform-bootstrap@<PROJECT_ID>.iam.gserviceaccount.com" --role="roles/resourcemanager.projectIamAdmin"    
+    gcloud projects add-iam-policy-binding fiap-prj-fast-food-2 --member="serviceAccount:teste-fiap-2@fiap-prj-fast-food-2.iam.gserviceaccount.com" --role="roles/resourcemanager.projectIamAdmin"    
 
-    gcloud projects add-iam-policy-binding fiap-prj-fast-food-473102 --member="serviceAccount:terraform-bootstrap@fiap-prj-fast-food-473102.iam.gserviceaccount.com" --role="roles/storage.admin"
+    gcloud projects add-iam-policy-binding fiap-prj-fast-food-2 --member="serviceAccount:teste-fiap-2@fiap-prj-fast-food-2.iam.gserviceaccount.com" --role="roles/storage.admin"
 
-    gcloud projects add-iam-policy-binding fiap-prj-fast-food-473102 --member="serviceAccount:terraform-bootstrap@fiap-prj-fast-food-473102.iam.gserviceaccount.com" --role="roles/compute.networkViewer"
+    gcloud projects add-iam-policy-binding fiap-prj-fast-food-2 --member="serviceAccount:teste-fiap-2@fiap-prj-fast-food-2.iam.gserviceaccount.com" --role="roles/compute.networkViewer"
 
     ```
 4. É necessário habilitar as APIs para que o provisionamento funcione:
