@@ -28,8 +28,6 @@ variable "vpc_name" {
   default     = "vpc-fiap-prj"
 }
 
-
-
 variable "vpc_private_subnet" {
   description = "Nome da sub-rede privada"
   type        = string
@@ -39,8 +37,6 @@ variable "vpc_cidr_range" {
   description = "Faixa CIDR da sub-rede privada"
   type        = string
 }
-
-
 
 variable "nat_router_name" {
   description = "Nome do Cloud Router para NAT"
@@ -59,6 +55,10 @@ variable "ssh_source_range" {
 }
 variable "gke_service_account" {
   description = "Service account do GKE"
+  type        = string
+}
+variable "gcp_credentials" {
+  description = "Arquivo de credenciais"
   type        = string
 }
 # variable "credentials_file" {
